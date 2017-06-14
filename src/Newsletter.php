@@ -160,6 +160,21 @@ class Newsletter
     }
 
     /**
+     * @param string $listName
+     * @param string $interestCategoryId
+     *
+     * @return array|false
+     *
+     * @throws \Spatie\Newsletter\Exceptions\InvalidNewsletterList
+     */
+    public function getInterests($listName, $interestCategoryId)
+    {
+        $list = $this->lists->findByName($listName);
+
+        return $this->mailChimp->get("lists/{$list->getId()}/interest-categories/$interestCategoryId/interests");
+    }
+
+    /**
      * @param string $fromName
      * @param string $replyTo
      * @param string $subject
