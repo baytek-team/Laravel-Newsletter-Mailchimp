@@ -167,11 +167,15 @@ class Newsletter
      *
      * @throws \Spatie\Newsletter\Exceptions\InvalidNewsletterList
      */
-    public function getInterests($listName, $interestCategoryId)
+    public function getInterests($listName, $interestCategoryId, $all = true)
     {
         $list = $this->lists->findByName($listName);
 
-        return $this->mailChimp->get("lists/{$list->getId()}/interest-categories/$interestCategoryId/interests");
+        $args = [
+            'count' => ($all) ? 999 : 10,
+        ];
+
+        return $this->mailChimp->get("lists/{$list->getId()}/interest-categories/$interestCategoryId/interests", $args);
     }
 
     /**
